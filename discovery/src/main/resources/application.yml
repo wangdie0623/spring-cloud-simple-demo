@@ -1,0 +1,42 @@
+info:
+  app:
+    name: "@project.name@" #从pom.xml中获取
+    description: "@project.description@"
+    version: "@project.version@"
+    spring-boot-version: "@project.parent.version@"
+
+security:
+  basic:
+    enabled: true
+  user:
+    name: admin
+    password: admin123
+server:
+  port: 8761
+
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      defaultZone: http://${security.user.name}:${security.user.password}@localhost:8761/eureka
+
+  instance:
+    #发呆时间，即服务续约到期时间（缺省为90s）
+    lease-expiration-duration-in-seconds: 10
+    #心跳时间，即服务续约间隔时间（缺省为30s）
+    lease-renewal-interval-in-seconds: 5
+
+  server:
+    #清理无效节点的时间间隔 5000毫秒,5s
+    eviction-interval-timer-in-ms: 5000
+    #关闭自我保护 设置true时会一直持有服务不释放
+    enable-self-preservation: false
+
+endpoints:
+  shutdown:
+    enabled: true
+    sensitive: false
+
+logging:
+    path: logs
